@@ -1,0 +1,27 @@
+p{
+  font-size: large;
+}
+.dateSpan{
+  font-size: small;
+  color: #b60505;
+  font-weight: bold;
+  text-decoration-line: overline;
+}
+.post-display{
+  padding: 25px;
+  border: 1px solid black;
+  border-radius: 25px 25px;
+}
+.profileName{
+  color: #82b74b;
+}
+.profileTitle{
+  color: #0959c0;
+  font-size: medium;
+}
+.profileName:hover{
+  cursor: pointer;
+ text-decoration-line: underline;
+  text-decoration-color: #858588;
+}
+

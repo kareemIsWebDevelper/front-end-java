@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>User Navbar</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a [routerLink]="[]" (click)="backToHomeProfile()" class="navbar-brand"
+         style="font-weight: bold;font-size: x-large;color: #428c10" href="#">Home |</a>
+      <a [routerLink]="['/user-profile',userId]" class="navbar-brand"
+         style="font-weight: bold;font-size: large;color: white" href="#">{{userFirstName}}</a>
+      <a [routerLink]="['/user-jobs']" class="navbar-brand" *ngIf="sameUser">Jobs</a>
+      <a class="navbar-brand" [routerLink]="[]" (click)="showUserFollowers()">Followers</a>
+      <a class="navbar-brand" [routerLink]="[]" (click)="showUserFollowingList()">Following</a>
+    </div>
+    <form class="navbar-form navbar-left">
+      <div id="searchDiv" class="form-group">
+        <input type="text" [(ngModel)]="searchKey" name="searchKey" class="form-control" placeholder="Search">
+      </div>
+      <button (click)="showSearchResult()" type="submit" class="btn btn-success">Search</button>
+    </form>
+  </div>
+</nav>
+<div
+  class="modal"
+  tabindex="-1"
+  role="dialog"
+  [ngStyle]="{'display':searchOrFollowingResultDisplayStyle}"
+  style="overflow: auto">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="width: 500px;height: auto">
+      <div class="modal-body" style="border: none;cursor: auto">
+        <p style="font-size: 20px;text-decoration-line: underline;text-align: center;color: #8c042e">People</p>
+        <div class="modal-body" (click)="directToUser(user.id)" *ngFor="let user of users">
+          <p
+            style="text-decoration-line: underline;font-weight: bold;color: #82b74b">{{user.firstName}} {{user.lastName}}</p>
+          <p>{{user.jobTitle}}</p>
+        </div>
+        <br><br>
+        <hr>
+        <p style="font-size: 20px;text-decoration-line: underline;text-align: center;color: #8c042e">Companies</p>
+        <div class="modal-body" [routerLink]="['/company-profile',company.id]" *ngFor="let company of companies">
+          <p style="text-decoration-line: underline;font-weight: bold;color: #82b74b">{{company.name}}</p>
+          <p>{{company.industry}}</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" style="font-size: 15px"
+                (click)="closeSearchOrFollowingDialog()">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div
+  class="modal"
+  tabindex="-1"
+  role="dialog"
+  [ngStyle]="{'display':followersDisplayStyle}"
+  style="overflow: auto">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="width: 500px;height: auto">
+      <div class="modal-body" style="border: none;cursor: auto">
+        <div class="modal-body" (click)="directToUser(user.id)" *ngFor="let user of users">
+          <p
+            style="text-decoration-line: underline;font-weight: bold;color: #82b74b">{{user.firstName}} {{user.lastName}}</p>
+          <p>{{user.jobTitle}}</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" style="font-size: 15px"
+                (click)="closeFollowersDialog()">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,18 @@
+#searchDiv input{
+  width: 400px;
+}
+
+.modal-body{
+  cursor: pointer;
+  border: 2px solid gray;
+  border-radius: 25px;
+  overflow: auto;
+}
+.modal-body:hover{
+  border: 2px solid #82b74b;
+}
+.modal-body p{
+  font-size: large;
+  color: black;
+  text-align: center;
+}

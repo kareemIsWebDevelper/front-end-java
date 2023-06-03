@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Company Jobs</title>
+</head>
+<body>
+<app-company-navbar [companyData]="company" [visibilityStyle]="companyActionVisibilityStyle"></app-company-navbar>
+<a [routerLink]="['/job-submission']" class="btn btn-success addLink" *ngIf="sameCompany">Add Job</a>
+<div class="container" style="overflow: auto">
+  <div *ngFor="let job of jobs">
+    <div class="dataDiv">
+      <div *ngIf="userViewer || sameCompany">
+        <button *ngIf="sameCompany" class="btn btn-danger" (click)="showDeleteDialog(job.id)">Delete</button>
+        <button *ngIf="userViewer && !userAppliedJobsIds.includes(job.id)" class="btn btn-primary" (click)="applyForJob(job.id)">Apply</button>
+        <button *ngIf="userViewer && userAppliedJobsIds.includes(job.id)" class="btn btn-white" style="border: 1px solid black" disabled>Already Applied</button>
+        <button *ngIf="sameCompany" class="btn btn-outline-primary" style="border: 1px solid darkblue" (click)="showJobApplicants(job.id)">Applicants ({{job.applicants.length}})</button>
+      </div><br><br>
+      <p class="jobTitle">{{job.title}}</p>
+      <br>
+      <label>Location : </label>
+      <p>{{job.location}} ({{job.employmentType.toString().charAt(0).toUpperCase() + job.employmentType.toString().toLowerCase().slice(1)}})</p>
+      <hr><br>
+      <label>Description : </label>
+      <p [innerHTML]="job.description"></p>
+      <hr><br>
+      <label>Requirements : </label>
+      <p [innerHTML]="job.requirement">{{job.requirement}}</p>
+      <hr><br>
+      <p><span>Publish date : </span> {{job.date}}</p>
+    </div>
+    <br>
+  </div>
+</div>
+<div
+  class="modal"
+  tabindex="-1"
+  role="dialog"
+  [ngStyle]="{'display':deleteDisplayStyle}"
+  style="overflow: auto">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="width: 500px;height: 200px">
+      <div class="modal-body" style="border: none">
+        <p style="font-size: 20px">Aro you sure to delete this job post ?</p>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" style="font-size: 15px"
+                (click)="closeDeleteDialog()">
+          Close
+        </button>
+        <button type="button" class="btn btn-danger" style="font-size: 15px"
+                (click)="deleteJob()">
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div
+  class="modal"
+  tabindex="-1"
+  role="dialog"
+  [ngStyle]="{'display':applicantsDisplayStyle}"
+  style="overflow: auto">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="width: 500px;height: auto">
+      <div class="modal-body" style="border: none;cursor: auto">
+        <div class="modal-body" (click)="directToUser(user.id)" *ngFor="let user of applicants">
+          <p
+            style="text-decoration-line: underline;font-weight: bold;color: #82b74b">{{user.firstName}} {{user.lastName}}</p>
+          <p>{{user.jobTitle}}</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" style="font-size: 15px"
+                (click)="closeApplicantsDialog()">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

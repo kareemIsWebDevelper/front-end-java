@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Profile</title>
+
+  <style>
+    aside p {
+      font-size: medium;
+    }
+
+    aside h6 {
+      font-size: large;
+    }
+
+    aside h5 {
+      font-size: large;
+      text-decoration-line: underline;
+      color: #469a0c;
+    }
+    .sender{
+      float: right;
+      border-radius: 25px 25px;
+      background-color: #1111b9;
+      color: white;
+      padding: 5px;
+    }
+    .receiver{
+      float: left;
+      border-radius: 25px 25px;
+      background-color: #807979;
+      color: white;
+      padding: 5px;
+      max-width: 450px;
+    }
+    .messageDiv{
+      padding: 3px;
+    }
+  </style>
+</head>
+<app-user-navbar [userFirstName]="user.firstName" [userId]="user.id" [sameUser]="sameUser"></app-user-navbar>
+<body>
+<div class="content-wrapper">
+  <a [routerLink]="['/user-registration',user.id]"><em class="fa fa-edit"
+                                                       style="font-size:25px;color:#007bff;float: right;"
+                                                       [ngStyle]="{'display':userActionDisplayStyle}"></em></a>
+  <a (click)="showDeleteDialog()"><em class="fa fa-minus-square" style="font-size:25px;color:red;float: right"
+                                      [ngStyle]="{'display':userActionDisplayStyle}"></em></a>
+  <aside>
+    <img [src]="user.profilePicturePath ? user.profilePicturePath : 'https://www.w3schools.com/howto/img_avatar.png'" alt="Profile Picture" class="profile-pic">
+    <h1 class="profile-name" style="font-size: x-large">{{user.firstName}}&nbsp;{{user.lastName}}</h1>
+    <div class="text-center">
+      <span class="badge badge-white badge-pill profile-designation"
+            style="color: black;font-size: large">{{user.jobTitle}}</span>
+    </div>
+    <div class="widget">
+      <h5 style="font-weight: bold" class="widget-title">Personal Information</h5>
+      <div class="widget-content">
+        <h6 style="color: blue">Birth date</h6>
+        <p>{{user.birthDate}}</p>
+        <h6 style="color: blue">Phone</h6>
+        <p>{{user.phone}}</p>
+        <h6 style="color: blue">E-mail</h6>
+        <p>{{user.email}}</p>
+        <h6 style="color: blue">Location</h6>
+        <p>{{user.city}},&nbsp;{{user.country}}</p>
+      </div>
+      <br>
+      <br>
+      <a class="btn btn-download-cv btn-danger rounded-pill" style="font-size: medium" (click)="logout()"
+         [ngStyle]="{'display':userActionDisplayStyle}"> Logout </a>
+      <a class="btn btn-primary rounded-pill" style="font-size: medium;color: white" (click)="followUser()"
+         *ngIf="!companyViewer && !alreadyFollowingDisplayStyle && !sameUser"> Follow </a>
+      <a class="btn btn-white rounded-pill" style="font-size: medium" (click)="unfollowUser()"
+         *ngIf="!companyViewer && alreadyFollowingDisplayStyle && !sameUser"> Following </a>
+      <a class="btn btn-info rounded-pill" style="font-size: medium" (click)="openChatDialog()"
+         *ngIf="!companyViewer && !sameUser"> Message </a>
+    </div>
+  </aside>
+  <main style="float: left">
+    <section class="resume-section">
+      <div class="row">
+        <div class="col-lg-6">
+          <a [routerLink]="['/education-submission']"><em class="fa fa-plus-square"
+                                                          style="font-size:30px;color:#1c7430;float: right"
+                                                          [ngStyle]="{'display':userActionDisplayStyle}"></em></a>
+          <h2 class="section-title">EDUCATION</h2>
+          <ul class="time-line">
+            <li class="time-line-item" *ngFor="let education of education">
+              <a [routerLink]="[]" [ngStyle]="{'display':userActionDisplayStyle}"
+                 (click)="deleteEducation(education.educationId)"><em class="fa fa-minus-square"
+                                                                      style="font-size:25px;color:red;float: right"></em></a>
+              <a [routerLink]="['/education-submission',education.educationId]"
+                 [ngStyle]="{'display':userActionDisplayStyle}"><em class="fa fa-edit"
+                                                                    style="font-size:25px;color:#007bff;float: right"></em></a>
+              <span class="badge badge-primary" style="font:15px bold">{{education.educationPlace}}</span><br>
+              <span class="badge" style="font-size:12px">{{education.educationDegree}}
+                in {{education.studyField}}</span><br>
+              <span class="badge" style="font-size:12px;background-color: #3b3b3b">{{education.startDate}}&nbsp;>>>&nbsp;{{education.endDate}}</span>
+            </li>
+          </ul>
+        </div>
+        <div class="col-lg-6">
+          <a [routerLink]="['/experience-submission']" [ngStyle]="{'display':userActionDisplayStyle}"><em
+            class="fa fa-plus-square" style="font-size:30px;color:#1c7430;float: right"></em></a>
+          <h2 class="section-title">Experience</h2>
+          <ul class="time-line">
+            <li class="time-line-item" *ngFor="let experience of experience">
+              <a [routerLink]="[]" (click)="deleteExperience(experience.experienceId)"
+                 [ngStyle]="{'display':userActionDisplayStyle}"><em class="fa fa-minus-square"
+                                                                    style="font-size:25px;color:red;float: right"></em></a>
+              <a [routerLink]="['/experience-submission',experience.experienceId]"
+                 [ngStyle]="{'display':userActionDisplayStyle}"><em class="fa fa-edit"
+                                                                    style="font-size:25px;color:#007bff;float: right"></em></a>
+              <span class="badge badge-primary" style="font:15px bold">{{experience.experiencePlace}}</span><br>
+              <span class="badge" style="font-size:12px">{{experience.experiencePosition}}</span><br>
+              <span class="badge" style="font-size:12px;background-color: #3b3b3b">{{experience.startDate}}&nbsp;>>>&nbsp;{{experience.endDate}}</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+    <section class="resume-section">
+      <div class="row">
+        <div class="col-lg-6">
+          <a [routerLink]="['/project-submission']" [ngStyle]="{'display':userActionDisplayStyle}"><em
+            class="fa fa-plus-square" style="font-size:30px;color:#1c7430;float: right"></em></a>
+          <h2 class="section-title">Projects</h2>
+          <ul class="time-line">
+            <li class="time-line-item" *ngFor="let project of projects">
+              <a [routerLink]="[]" [ngStyle]="{'display':userActionDisplayStyle}"
+                 (click)="deleteProject(project.projectId)"><em class="fa fa-minus-square"
+                                                                style="font-size:25px;color:red;float: right"></em></a>
+              <a [routerLink]="['/project-submission',project.projectId]"
+                 [ngStyle]="{'display':userActionDisplayStyle}"><em class="fa fa-edit"
+                                                                    style="font-size:25px;color:#007bff;float: right"></em></a>
+              <span class="badge badge-primary" style="font:15px bold">{{project.projectName}}</span>
+              <h6 class="time-line-item-title" style="font-size: 14px" [innerHTML]="project.projectDescription"></h6>
+              <a href="{{project.projectLink}}" target="_blank" class="time-line-item-content" style="font-size: 12px"
+                 [ngStyle]="{'display':userActionDisplayStyle}">{{project.projectLink}}</a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-lg-6">
+          <a [routerLink]="['/course-submission']" [ngStyle]="{'display':userActionDisplayStyle}"><em
+            class="fa fa-plus-square" style="font-size:30px;color:#1c7430;float: right"></em></a>
+          <h2 class="section-title">Courses</h2>
+          <ul class="time-line">
+            <li class="time-line-item" *ngFor="let course of courses">
+              <a [routerLink]="[]" [ngStyle]="{'display':userActionDisplayStyle}"
+                 (click)="deleteCourse(course.courseId)"><em class="fa fa-minus-square"
+                                                             style="font-size:25px;color:red;float: right"></em></a>
+              <a [routerLink]="['/course-submission',course.courseId]"
+                 [ngStyle]="{'display':userActionDisplayStyle}"><em class="fa fa-edit"
+                                                                    style="font-size:25px;color:#007bff;float: right"></em></a>
+              <span class="badge badge-primary" style="font:15px bold">{{course.courseName}}</span>
+              <h6 class="time-line-item-title">{{course.courseProvider}}</h6>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+    <section class="resume-section">
+      <div class="row">
+        <div class="col-lg-6">
+          <a [routerLink]="['/skill-submission']" [ngStyle]="{'display':userActionDisplayStyle}"><em
+            class="fa fa-plus-square" style="font-size:30px;color:#1c7430;float: right"></em></a>
+          <h2 class="section-title">Skills</h2>
+          <ul class="time-line">
+            <li class="time-line-item" *ngFor="let skill of skills">
+              <a [routerLink]="[]" [ngStyle]="{'display':userActionDisplayStyle}"
+                 (click)="deleteSkill(skill.skillId)"><em class="fa fa-minus-square"
+                                                          style="font-size:25px;color:red;float: right"></em></a>
+              <span class="badge badge-primary" style="font:15px bold">{{skill.skillName}}</span>
+            </li>
+          </ul>
+        </div>
+        <div class="col-lg-6">
+          <a [routerLink]="['/about-submission']" [ngStyle]="{'display':userActionDisplayStyle}"><em class="fa fa-edit"
+                                                                                                     style="font-size:25px;color:#007bff;float: right"></em></a>
+          <h2 class="section-title">About</h2>
+          <h5 class="widget-title" style="font-size: 14px;font-weight: bold" [innerHTML]="user.about"></h5>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<div
+  class="modal"
+  tabindex="-1"
+  role="dialog"
+  [ngStyle]="{'display':deleteDisplayStyle}"
+  style="overflow: auto">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="width: 500px;height: 200px">
+      <div class="modal-body">
+        <p style="font-size: 20px">Aro you sure to delete your account ?</p>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" style="font-size: 15px"
+                (click)="closeDeleteDialog()">
+          Close
+        </button>
+        <button type="button" class="btn btn-danger" style="font-size: 15px"
+                (click)="deleteAccount()">
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div
+  class="modal"
+  tabindex="-1"
+  role="dialog"
+  [ngStyle]="{'display':chatDisplayStyle}"
+  style="overflow: auto">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-body" style="height: 300px;overflow: auto;">
+          <div class="messageDiv" *ngFor="let message of chat">
+            <p class="sender" *ngIf="message.sender.id==id">{{message.body}}</p><br>
+            <p class="receiver" *ngIf="message.sender.id==visitedId">{{message.body}}</p><br>
+          </div>
+        </div>
+      <hr>
+      <input type="text" class="form-control" [(ngModel)]="messageSaveDTO.body" name="message" [maxLength]="75"
+             (keyup.enter)="sendMessage()"
+             style="color: black;font-size: medium;width: 70%;margin: auto;height: 20%;border-radius: 25px 25px" placeholder="type..."/>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" style="font-size: 15px"
+                (click)="closeChatDialog()">
+          Close
+        </button>
+        <button type="button" class="btn btn-danger" style="font-size: 15px"
+                (click)="sendMessage()">
+          Send
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

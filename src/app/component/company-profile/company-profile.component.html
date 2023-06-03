@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Company Profile</title>
+</head>
+<body>
+<app-company-navbar [companyData]="company" [visibilityStyle]="companyActionVisibilityStyle"></app-company-navbar>
+<div class="widget" style="float: right;margin-right: 30px">
+  <a class="btn btn-primary rounded-pill" style="font-size: medium;color: white" (click)="followCompany()"
+     *ngIf="userViewer && !alreadyFollowing"> Follow </a>
+  <a class="btn btn-white rounded-pill" style="font-size: medium;background-color: #cacbca" (click)="unfollowCompany()"
+     *ngIf="userViewer && alreadyFollowing"> Following </a>
+</div>
+<br><br>
+<div class="container">
+  <span style="color: black;font-weight: bold;font-size: xx-large;border: none;text-decoration-line: underline">{{company.name}}</span>
+  <span>{{company.bio}}</span>
+  <br>
+  <div id="companyDetails">
+    <div class="form-group">
+      <h3>Industry</h3>
+      <p>{{company.industry}}</p>
+    </div>
+    <br>
+    <hr>
+    <div class="form-group">
+      <h3>About</h3>
+      <p id="about" [innerHTML]="company.about"></p>
+    </div>
+    <br>
+    <hr>
+    <div class="form-group">
+      <h3>Founded</h3>
+      <p>{{company.foundedDate}}</p>
+    </div>
+    <br>
+    <hr>
+    <div class="form-group">
+      <h3>Phone</h3>
+      <p>{{company.phone}}</p>
+    </div>
+    <br>
+    <hr>
+    <div class="form-group">
+      <h3>E-mail</h3>
+      <p>{{company.email}}</p>
+    </div>
+    <br>
+    <hr>
+    <div class="form-group">
+      <h3>Location</h3>
+      <p>{{company.country}},&nbsp;{{company.city}}</p>
+    </div>
+    <hr>
+    <div class="form-group">
+      <h3>Website</h3>
+      <a href="{{company.website}}" target="_blank">{{company.website}}</a>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Timeline</title>
+</head>
+<app-company-navbar [companyData]="company" [visibilityStyle]="companyActionVisibilityStyle"></app-company-navbar>
+<body>
+<div class="container">
+  <br>
+  <div class="btn-group nav-selection" role="group" aria-label="Basic radio toggle button group" id="buttons-group">
+    <input type="radio" class="btn-check" name="timeline" autocomplete="off" [checked]="timelineCheckedValue">
+    <label (click)="timelineChecked()" class="btn btn-outline-primary">Timeline</label>
+
+    <input type="radio" class="btn-check" name="myPosts" autocomplete="off" [checked]="postsCheckedValue">
+    <label (click)="postsChecked()" class="btn btn-outline-primary">My posts</label>
+  </div>
+  <hr>
+
+  <div class="timeline-posts" [ngStyle]="{'display':timelineDisplayStyle}">
+    <div class="user-posts" [ngStyle]="{'display':timelineDisplayStyle}" *ngFor="let post of timeline.userPosts">
+      <div class="post-display">
+        <a class="profileName" [routerLink]="['/user-profile/',post.user.id]">{{post.user.firstName}} {{post.user.lastName}}<br><span class="profileTitle">{{post.user.jobTitle}}</span></a>
+        <br><br>
+        <p [innerHTML]="post.text"></p>
+        <p><span class="dateSpan">{{post.date}}</span></p>
+      </div>
+      <br>
+    </div>
+    <div class="timeline-posts" [ngStyle]="{'display':timelineDisplayStyle}" *ngFor="let post of timeline.companyPosts">
+      <div class="post-display">
+        <a class="profileName" [routerLink]="['/company-profile/',post.company.id]">{{post.company.name}}<br><span class="profileTitle">{{post.company.industry}}</span></a>
+        <br><br>
+        <p [innerHTML]="post.text"></p>
+        <p><span class="dateSpan">{{post.date}}</span></p>
+      </div>
+      <br>
+    </div>
+  </div>
+
+  <button (click)="showPostingDialog()" class="btn btn-success" style="float: right" [ngStyle]="{'display':companyPostsDisplayStyle}">Add post</button><br><br>
+  <div class="company-posts" [ngStyle]="{'display':companyPostsDisplayStyle}" *ngFor="let post of companyPosts">
+    <div class="post-display">
+      <button (click)="deletePost(post.id)" class="btn btn-danger" style="float: right">Delete</button><br><br><br>
+      <p [innerHTML]="post.text"></p>
+      <p><span class="dateSpan">{{post.date}}</span></p>
+    </div>
+    <br>
+  </div>
+</div>
+<div
+  class="modal"
+  tabindex="-1"
+  role="dialog"
+  [ngStyle]="{'display':postingDisplayStyle}"
+  style="overflow: auto;">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="width: 500px;height: 300px">
+      <div class="modal-body">
+        <label class="form-label">Post</label>
+        <textarea style="height: 180px;" [(ngModel)]="companyPostDTO.text" name="post" type="text" class="form-control" required></textarea>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" style="font-size: 15px"
+                (click)="closePostingDialog()">
+          Close
+        </button>
+        <button type="submit" class="btn btn-danger" style="font-size: 15px"
+                (click)="savePost()">
+          Post
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>User Jobs</title>
+</head>
+<body>
+<app-user-navbar [userFirstName]="user.firstName" [userId]="user.id" [sameUser]="true"></app-user-navbar>
+<div class="container" style="overflow: auto">
+  <div *ngFor="let job of userJobsPackage.matching">
+    <div class="dataDiv">
+      <div>
+        <button *ngIf="!userAppliedJobsIds.includes(job.id)" class="btn btn-primary" (click)="applyForJob(job.id)">Apply</button>
+        <button *ngIf="userAppliedJobsIds.includes(job.id)" class="btn btn-white" style="border: 1px solid black" disabled>Already Applied</button>
+      </div><br><br>
+      <p class="companyName">{{job.companyName}}</p>
+      <p class="jobTitle">{{job.title}}</p>
+      <p class="matchJob">(matches your profile)</p>
+      <br>
+      <label>Location : </label>
+      <p>{{job.location}} ({{job.employmentType.toString().charAt(0).toUpperCase() + job.employmentType.toString().toLowerCase().slice(1)}})</p>
+      <hr><br>
+      <label>Description : </label>
+      <p [innerHTML]="job.description"></p>
+      <hr><br>
+      <label>Requirements : </label>
+      <p [innerHTML]="job.requirement">{{job.requirement}}</p>
+      <hr><br>
+      <p><span>Publish date : </span> {{job.date}}</p>
+    </div>
+    <br>
+  </div>
+  <div *ngFor="let job of userJobsPackage.others">
+    <div class="dataDiv">
+      <div>
+        <button *ngIf="!userAppliedJobsIds.includes(job.id)" class="btn btn-primary" (click)="applyForJob(job.id)">Apply</button>
+        <button *ngIf="userAppliedJobsIds.includes(job.id)" class="btn btn-white" style="border: 1px solid black" disabled>Already Applied</button>
+      </div><br><br>
+      <p class="companyName">{{job.companyName}}</p>
+      <p class="jobTitle">{{job.title}}</p>
+      <br>
+      <label>Location : </label>
+      <p>{{job.location}} ({{job.employmentType.toString().charAt(0).toUpperCase() + job.employmentType.toString().toLowerCase().slice(1)}})</p>
+      <hr><br>
+      <label>Description : </label>
+      <p [innerHTML]="job.description"></p>
+      <hr><br>
+      <label>Requirements : </label>
+      <p [innerHTML]="job.requirement">{{job.requirement}}</p>
+      <hr><br>
+      <p><span>Publish date : </span> {{job.date}}</p>
+    </div>
+    <br>
+  </div>
+</div>
+</body>
+</html>

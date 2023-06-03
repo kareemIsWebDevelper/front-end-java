@@ -1,0 +1,43 @@
+.jobTitle{
+  text-align: center;
+  font-weight: bold;
+  font-size: x-large;
+  text-decoration-line: underline;
+}
+.matchJob{
+  color: green;
+  text-decoration-line: none;
+  font-size: small;
+  text-align: center
+}
+p{
+  font-size: larger;
+}
+hr{
+  width: 50%;
+  margin: auto;
+}
+label{
+  font-size: large;
+  color: #0959c0;
+  font-weight: bold;
+}
+span{
+  font-size: large;
+  color: #0959c0;
+  font-weight: bold;
+}
+.dataDiv{
+  border: 2px solid #808080;
+  padding: 10px;
+  border-radius:25px 25px;
+}
+button{
+  float:right;
+}
+.companyName{
+  text-align: center;
+  font-weight: bold;
+  font-size: xx-large;
+  color: #0959c0;
+}

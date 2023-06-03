@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Company Navbar</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div>
+      <a [routerLink]="[]" (click)="backToHomeProfile()" class="navbar-brand"
+         style="font-weight: bold;font-size: x-large;color: #428c10" href="#">Home |</a>
+      <a [routerLink]="['/company-profile',companyData.id]" class="navbar-brand"
+         style="font-weight: bold;font-size: large;color: white" href="#">{{companyData.name.split(' ')[0]}}</a>
+      <a [routerLink]="['/company-jobs',companyData.id]" class="navbar-brand">Jobs</a>
+      <a [routerLink]="[]" (click)="showCompanyFollowers()" class="navbar-brand">Followers</a>
+    </div>
+    <form class="navbar-form navbar-left">
+      <div id="searchDiv" class="form-group">
+        <input [(ngModel)]="searchKey" name="key" type="text" class="form-control" placeholder="Search">
+      </div>
+      <button (click)="showSearchResult()" type="submit" class="btn btn-success">Search</button>
+    </form>
+    <div class="controlDiv" [ngStyle]="{'visibility':visibilityStyle}">
+      <a [routerLink]="['/company-registration',companyData.id]" class="btn btn-primary">Update</a>
+      <a (click)="logout()" class="btn btn-danger">Logout</a>
+      <a (click)="showDeleteDialog()" class="btn btn-outline-danger">Deactivate</a>
+    </div>
+  </div>
+</nav>
+<div
+  class="modal"
+  tabindex="-1"
+  role="dialog"
+  [ngStyle]="{'display':deleteDisplayStyle}"
+  style="overflow: auto">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body" style="border: none">
+        <p>Aro you sure to delete your account ?</p>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary"
+                (click)="closeDeleteDialog()">
+          Close
+        </button>
+        <button type="button" class="btn btn-danger"
+                (click)="deleteAccount()">
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div
+  class="modal"
+  tabindex="-1"
+  role="dialog"
+  [ngStyle]="{'display':searchResultDisplayStyle}"
+  style="overflow: auto">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body" style="border: none">
+        <p style="font-size: 20px;text-decoration-line: underline;text-align: center;color: #8c042e">People</p>
+        <div class="modal-body" [routerLink]="['/user-profile',user.id]" *ngFor="let user of users">
+          <p
+            style="text-decoration-line: underline;font-weight: bold;color: #82b74b">{{user.firstName}} {{user.lastName}}</p>
+          <p>{{user.jobTitle}}</p>
+        </div>
+        <br><br>
+        <hr>
+        <p style="font-size: 20px;text-decoration-line: underline;text-align: center;color: #8c042e">Companies</p>
+        <div class="modal-body" (click)="directToCompany(company.id)" *ngFor="let company of companies">
+          <p style="text-decoration-line: underline;font-weight: bold;color: #82b74b">{{company.name}}</p>
+          <p>{{company.industry}}</p>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary"
+                (click)="closeSearchDialog()">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div
+  class="modal"
+  tabindex="-1"
+  role="dialog"
+  [ngStyle]="{'display':followersDisplayStyle}"
+  style="overflow: auto">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="width: 500px;height: auto">
+      <div class="modal-body" style="border: none;cursor: auto">
+        <div class="modal-body" [routerLink]="['/user-profile',user.id]" *ngFor="let user of users">
+          <p
+            style="text-decoration-line: underline;font-weight: bold;color: #82b74b">{{user.firstName}} {{user.lastName}}</p>
+          <p>{{user.jobTitle}}</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" style="font-size: 15px"
+                (click)="closeFollowersDialog()">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
+

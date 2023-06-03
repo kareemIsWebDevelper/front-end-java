@@ -1,0 +1,52 @@
+.dataDiv{
+  border: 2px solid #808080;
+  padding: 10px;
+  border-radius:25px 25px;
+}
+button{
+  float:right;
+}
+
+.addLink{
+  float: right;
+  margin-right: 30px;
+}
+
+.jobTitle{
+  text-align: center;
+  font-weight: bold;
+  font-size: x-large;
+  text-decoration-line: underline;
+}
+
+p{
+font-size: larger;
+}
+hr{
+  width: 50%;
+  margin: auto;
+}
+label{
+  font-size: large;
+  color: #0959c0;
+  font-weight: bold;
+}
+span{
+  font-size: large;
+  color: #0959c0;
+  font-weight: bold;
+}
+.modal-body{
+  cursor: pointer;
+  border: 2px solid gray;
+  border-radius: 25px;
+  overflow: auto;
+}
+.modal-body:hover{
+  border: 2px solid #82b74b;
+}
+.modal-body p{
+  font-size: large;
+  color: black;
+  text-align: center;
+}
